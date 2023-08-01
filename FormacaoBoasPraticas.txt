@@ -1,0 +1,403 @@
+Acoplamento bom: tipo que seja estável (dificilmente vai ser alterado).
+
+Acoplamentos
+Acoplamento diz respeito à dependência entre dois tipos. Num sistema orientado a objetos os acoplamentos são inevitáveis. O que devemos fazer é cuidar de sua qualidade. Acoplamentos bons são aqueles para tipos estáveis (que não vão mudar ou tem alta probabilidade de não mudar). Candidatos a tipos estáveis são aqueles que fazem parte da plataforma .NET e de APIs muito usadas. Acoplamentos ruins são aqueles para tipos instáveis. Exemplos dessa categoria são os tipos criados especificamente para nossa aplicação e principalmente implementações para mecanismos específicos (no nosso exemplo o LeilaoDaoComEfCore).
+
+Cumpra as promessas das abstrações
+Preocupe-se com a coesão e acoplamento das interfaces
+CQRS - Command Query Responsibility Segregation
+
+LSP -> Liskov Substitution Principle
+ISP -> Interface Segregation Principle
+
+“S” Single Responsibility Principle (Princípio de responsabilidade única): uma classe deve ter uma e apenas uma razão para mudar.
+
+“O” Open-Closed Principle (Princípio aberto/fechado): objetos devem estar disponíveis para extensão, mas fechados para modificação.
+
+“L” Liskov Substitution Principle (Princípio de substituição de Liskov): uma subclasse deve ser substituível por sua superclasse.
+
+“I” Interface Segregation Principle (Princípio de segregação de interface): uma classe não deve ser obrigada a implementar métodos e interfaces que não serão utilizadas.
+
+“D” Dependency Inversion Principle (Princípio de inversão de dependência): dependa de abstrações e não de implementações.
+
+_________________________________________________________________________________________________________________________
+Principais padrões criacionais:
+	* Factory Method
+	* Abstract Factory
+	* Builder
+	
+Principais padrões estruturais:
+	* Adapter
+	* Bridge
+	* Composite
+	
+Principais padrões comportamentais:
+	* Chain of resposibility
+	* Command
+	* Interpreter
+	
+O padrão Strategy é muito útil quando temos um conjunto de algoritmos similares, e precisamos alternar entre eles em diferentes pedaços da aplicação.
+
+Chain of Responsibility: o padrão Chain of Responsibility cai como uma luva quando temos uma lista de comandos a serem executados de acordo com algum cenário em específico, e sabemos também qual o próximo cenário que deve ser validado, caso o anterior não satisfaça a condição.
+
+Template method: quando temos diferentes algoritmos que possuem estruturas parecidas, o Template Method é uma boa solução. Com ele, conseguimos definir, em um nível mais macro, a estrutura do algoritmo e deixar "buracos", que serão implementados de maneira diferente por cada uma das implementações específicas.
+
+Decorator: sempre que percebemos que temos comportamentos que podem ser compostos por comportamentos de outras classes envolvidas em uma mesma hierarquia, como foi o caso dos impostos, que podem ser composto por outros impostos. O Decorator introduz a flexibilidade na composição desses comportamentos, bastando escolher no momento da instanciação, quais instancias serão utilizadas para realizar o trabalho.
+
+State: a principal situação que faz emergir o Design Pattern State é a necessidade de implementação de uma máquina de estados. Geralmente, o controle das possíveis transições são vários e complexos, fazendo com que a implementação não seja simples. O State auxilia a manter o controle dos estados simples e organizados através da criação de classes que representem cada estado e saiba controlar as transições.
+
+Builder: sempre que tivermos um objeto complexo de ser criado, que possui diversos atributos, ou que possui uma lógica de criação complicada, podemos esconder tudo isso em um Builder. Além de centralizar o código de criação e facilitar a manutenção, ainda facilitamos a vida das classes que precisam criar essa classe complexa, afinal a interface do Builder tende a ser mais clara e fácil de ser usada.
+
+Observer: quando o acoplamento da nossa classe está crescendo, ou quando temos diversas ações diferentes a serem executadas após um determinado processo. Ele permite que diversas ações sejam executadas de forma transparente à classe principal, reduzindo o acoplamento entre essas ações, facilitando a manutenção e evolução do código.
+
+Factory: usamos uma fábrica quando temos que isolar o processo de criação de um objeto em um único lugar. Essa fábrica pode descobrir como criar o objeto dentro dela própria, mas geralmente ela não precisa de muitas informações para criar o objeto.
+
+Flyweight: m Flyweight serve para quando temos muitas instâncias do mesmo objeto andando pelo sistema, e precisamos economizar. Para tal, o Flyweight faz uso de uma fábrica modificada, que guarda essas instâncias.
+
+Memento: o Memento é um padrão de projeto que nos ajuda a salvar e restaurar estados de objetos.
+
+Interpreter: geralmente útil para interpretar DSLs. É comum que, ao ler a string (como por exemplo 2+3/4), o programa transforme-a em uma estrutura de dados melhor (como as nossas classes Expressao) e aí interprete essa árvore.
+
+Visitor: a finalidade do visitor dentro do código é simplesmente percorrer toda a árvore de expressão para executar alguma lógica.
+
+Bridges: liga hierarquias que possuem responsabilidades distintas através de composição de classes. Essa composição funciona como uma ponte entre as duas hierarquias de classes.
+
+Command: abstrair um comando que deve ser executado, pois não é possível executá-lo naquele momento (pois precisamos por em uma fila ou coisa do tipo).
+
+Adapter: isola codigo de biblioteca/codigo legado para dentro do codigo orientado a objeto. Nós temos uma biblioteca ou um sistema antigo cuja interface não se encaixa perfeitamente no sistema atual, nesse caso, podemos adaptar essa interface definida pela biblioteca ou sistema legado utilizando uma nova classe dentro de nosso sistema.
+
+Façades: serve como uma frente única para os serviços disponibilizados por um ou mais sub-sistemas, provendo uma maneira mais simples para consumo do mesmo.
+Singleton: nos ajuda a ter uma única instância do objeto ao longo do sistema.
+_________________________________________________________________________________________________________________________
+Codigo limpo
+
+Sem duplicação
+Possui clareza
+Menos classes
+Fácil de manter
+Passa em todos os testes
+
+Inline method:
+Quando refatorar?
+Corpo do método é tão obvio quanto seu nome, e o método se torna desnecessário.
+
+Quando nao refatorar?
+O corpo do método não é auto-explicativo.
+
+Um código só deve ser refatorado DEPOIS de rodar corretamente os requisitos da aplicação
+
+Código Limpo
+ -> evita duplicação de código
+ -> possibilita maior clareza
+ -> facilita comunicação entre a equipe de desenvolvimento
+ -> para identificar e eliminar as classes e métodos supérfluos
+ -> facilita manutenção do código
+ -> precisa garantir que todos os testes continuem passando
+ 
+Débito técnico
+ -> É o código ruim que vai se acumulando ao decorrer do desenvolvimento
+ -> É muito comum postergar melhorias. O famoso "deixar para depois".
+ -> Refatorar reduz/elimina o débito técnico
+ -> Refatorar garante código com maior qualidade
+ -> Código com qualidade reduz o tempo de correção de bugs
+ 
+Extrair método (Extract Method)
+ -> é usado quando você tem um trecho de código que pode ser agrupado
+ -> Quando Extrair método?
+	 -> Quando houver código duplicado
+	 -> Quando o método for muito grande
+	 -> Quando houver comentários
+	 -> Quando houver cadeias de mensagens
+ -> Quando NÃO extrair método?
+	 -> Quando o corpo do método for ficar tão óbvio quanto seu nome
+	 
+Incorporar método (Inline Method)
+ -> Quando incorporar método?
+	-> Quando o corpo do método é tão óbvio quanto seu nome, e o método se torna desnecessário
+ -> Quando NÃO refatorar?
+ -> Quando NÃO incorporar método?
+	-> Quando ocorpo do método não é auto-explicativo
+	
+Extrair variável (Extract Variable)
+ -> Partes de uma expressão complexa são armazenadas em variáveis explicativas
+ -> Quando refatorar?
+	-> Uma expressão complexa pode ser quebrada em partes (variáveis) mais simples
+ -> Quando NÃO refatorar?
+	-> Quando a expressão da variável não é auto-explicativa
+	
+Incorporar variável temporária (Inline Temp)
+
+ -> Você tem uma variável temporária que só recebe valor uma vez, e ela recebe o valor de uma expressão simples
+ -> Quando refatorar?
+	-> A expressão da variável é tão óbvia quanto seu nome, e a variável se torna desnecessária
+ -> Quando NÃO refatorar?
+	-> A expressão da variável não é auto-explicativa
+
+Substituir variável por consulta a método (Replace Temp With Query)
+
+ -> Mover para um novo método a expressão atribuída a uma variável
+ -> Quando refatorar?
+	-> Quando você está armazenando o resultado de uma expressão em uma variável temporária, mas ao mesmo tempo precisa que a expressão seja reutilizada em
+	outros pontos da classe ou da aplicação, faz sentido disponibilizar a expressão em um método que pode ser consultado por outros pontos da classe ou da aplicação.
+ -> Por que refatorar?
+	-> Porque um método pode ser reutilizado em outros lugares, mas a variável temporária não, pois ela tem um escopo mais limitado do que um método.
+	
+Quebrar uma variável em duas ou mais (Split Temporary Variable)
+
+ -> Você tem uma variável temporária que recebe valor mais de uma vez
+ -> Por que refatorar?
+	-> Uma variável está com mais de uma responsabilidade
+    -> Nome da variável não explica o que ela armazena
+    -> Todo o código fica “amarrado” com a linha onde a variável é declarada
+	-> Código pouco legível
+ -> Quando NÃO refatorar?
+	-> Quando a variável só é usada uma vez.
+	
+Remover atribuição a parâmetros (Remove Assignments to Parameters)
+
+ -> Você modificou um parâmetro de entrada dentro de um método
+ -> Quando refatorar?
+	-> Você está “economizando” variável ao modificar um parâmetro de entrada.
+ -> Quando NÃO refatorar?
+	-> Em métodos recursivos ou não, quando o parâmetro funciona como acumulador.
+
+Substituir um método com um objeto-método (Replace Method With Method Object)
+
+ -> Um método é tão complexo que você não consegue extrair um método
+ -> Quando refatorar?
+	-> Um método é longo e complexo, mesmo assim não dá pra extrair métodos menores a partir dele.
+	-> Porém...
+		-> Você vai precisar de mais uma classe, o que aumenta a complexidade do programa.
+
+Substituir o algoritmo (Substitute Algorithm)
+
+ -> O algoritmo atual funciona, mas você teve uma ideia bem melhor
+ -> Quando refatorar?
+	-> Quando você vê um algoritmo e sente que pode fazer melhor, simplificando ou esclarecendo o código.
+ -> Quando NÃO refatorar?
+	-> Você não entendeu muito bem o funcionamento do código original, ou não tem testes unitários suficientes para garantir que o programa vai funcionar como antes.
+	
+Mover o método (Move Method)
+
+ -> Um método é movido de uma classe para outra
+ -> Quando refatorar?
+	-> Um método é mais usado por outra classe do que pela própria classe onde ele se encontra
+ -> Quando NÃO refatorar?
+	-> O método é estático e faz parte de uma “biblioteca de métodos”
+	
+Mover campo (Move Field)
+
+ -> Um campo é movido de uma classe para outra
+ -> Quando refatorar?
+	-> Um campo é mais usado por outra classe do que na própria classe onde ele está
+
+Extrair uma classe (Extract Class)
+
+ -> Partes de uma classe podem formar uma nova classe
+ -> Quando refatorar?
+	-> Uma classe está fazendo trabalho de duas (viola princípio da responsabilidade única)
+	-> Code Smell: Classe Muito Longa
+	-> Code Smell: Duplicação de Dados
+	-> Code Smell: Dados aglomerados
+	-> Code Smell: Obsessão por tipos primitivos
+	-> Porém...
+		-> Em exagero, pode produzir classes supérfluas
+		
+Incorporar a classe (Inline Class)
+
+ -> Mover os membros (campos, métodos) de uma classe para outra
+ -> Quando refatorar?
+	-> Uma classe é supérflua, “preguiçosa”, ou “anêmica”. Ela não está fazendo praticamente nada
+ -> Quando NÃO refatorar?
+	-> A refatoração irá deixar a classe de destino com responsabilidades demais
+	
+Lei de Demeter: estabelece que cada método ou classe deve "conversar" somente com seus "amigos", e nunca "falar com estranhos".
+
+Esconder o delegado (Hide Delegate)
+ -> Uma classe cliente está invocando uma classe delegada de um objeto
+ -> Quando refatorar?
+	-> Um objeto cliente "Obj1" qualquer invoca um objeto "Obj2" a partir de um outro objeto "Obj3", que por sua vez invoca um outro objeto "Obj4", e assim por diante.
+	-> Porém...
+	-> Em exagero pode levar à criação de muitos intermediários
+
+Remover o intermediário (Remove Middle Man)
+ -> A classe está fazendo uma delegação muito simples
+ -> Quando refatorar?
+	-> Uma classe qualquer "C1" precisa de informações que estão numa classe "C2", mas em vez de fazer uma referência a esta, a classe "C1" obtém informações de "C2" através de chamadas a uma terceira classe intermediária "C3", e essa sim obtém as informações de C2 e por sua vez as devolve para C1.
+
+Introduzir método externo (Introduce Foreign Method )
+
+ -> A classe-servidora que você está usando precisa de um novo método, mas você não pode modificar essa classe
+ -> Quando refatorar?
+	-> Você tem código que consome dados e métodos de uma determinada classe (que chamamos de "classe utilitária). Você percebe que esse código ficaria melhor dentro de um novo método dessa classe, mas você não pode fazer isso porque a classe faz parte de uma biblioteca de terceiros.
+	-> Porém...
+	-> Se precisar criar vários métodos como esse, considere criar uma classe de extensão
+	
+Introduzir extensão local (Introduce Local Extension)
+
+ -> Uma classe-servidora que você está usando precisa de vários métodos adicionais, mas você não pode modificar essa classe
+ -> Porém...
+ -> Se só houver um método, a classe pode ficar supérflua.
+ -> Quando refatorar?
+	-> A classe que você está usando não possui os métodos que você precisa, e além disso você não pode adicionar esses métodos porque a classe faz parte de uma biblioteca de terceiros.
+
+_________________________________________________________________________________________________________________________
+Substituir numero mágico
+
+ -> Numero ou string soltas no codigo
+ -> Resolve através do uso de constantes
+ 
+Substituir Array por objeto
+
+ -> Tipos diferentes armazenados no array
+ -> Criação de uma classe para armazenar o valor
+ -> Elimina odor: obsessão por tipos primitivos
+ 
+Substituir dados por objeto
+
+ -> Dados e comportamentos estão soltos
+ -> criando nova classe encapsulando dados e comportamentos
+ 
+Encapsular campo
+
+ -> Criar encapsulamento
+ -> Manter bom funcionamento e consistencia
+ 
+Encapsular coleção
+
+ -> Coleção desprotegida
+ -> Protege coleção, emitindo para fora uma copia da coleção
+ 
+Mudar de valor para referencia
+
+ -> Instancias identicas
+ -> Você quer usar 1 unico objeto
+ 
+Mudar de referencia para valor
+
+ -> Objeto imutável como referência
+ 
+Mudar associação de uni para bidirecional
+
+ -> A referencia B, mas B não referencia A
+ -> Nova associação no sentido contrario
+ 
+Mudar associação de bi para unidirecional
+
+ -> Podemos remover a referencia em um dos sentidos
+ 
+Duplicar dados observados
+
+ -> Logica do dominio na GUI
+ -> Crie classes para o dominio
+ -> Implementa o design pattern observer
+ 
+Substituir codigo de tipo por classe
+
+ -> Tipo é identificado por numeros
+ -> Criar nova classe
+ 
+Substituir código de tipo por subclasses
+
+ -> Você tem um tipo de codigo imutável que afeta o comportamento da classe
+ -> Criar 1 subclasse por TIPO
+
+Substituir código de tipo por state ou strategy
+
+ -> Tipos mutáveis identificados por numeros. Cada tipo tem um comportamento diferente.
+
+Substituir subclasses por campo
+
+ -> Subclasses variam somente para retornar dados constantes
+ 
+Decompor Condição
+ 
+ -> Condição complexa
+ 
+Consolidar expressão condicional
+
+ -> condições diferentes com mesmo resultado
+ 
+Consolidar fragmentos condicionais duplicados
+
+ -> arvore condicional com codigo duplicado
+ -> mover o trecho duplicado pra fora da arvore de condições
+_________________________________________________________________________________________________________________________
+
+Refatorando código
+
+Renomear método: o nome do método não explica o que ele faz ou existe método semelhante.
+
+Adicionar parametro: um método não tem todos os dados que precisa para fazer seu trabalho
+	- crie parametros para fornecer os dados necessários ao método
+
+Remover parametro: um parâmetro não é usado dentro do corpo do método
+	- remova o parametro nao utilizado.
+	
+Separar consulta do modificador: um método faz duas coisas: retorna dados mas tambem executa algum comando.
+	- quebre o método em dois. Um executa consulta e um comandos.
+	
+Parametrizar método: varios métodos executam ações similares que só diferem em valores, números ou operações.
+	- combine esses métodos utilizando um parametro que passará os valores necessários.
+
+Substituir parametro por métodos explicitos: um método retorna valores diferentes dependendo do valor de um parametro.
+	- extraia as partes do método em métodos distintos, cada um com sua lógica independente.
+
+Preservar objeto inteiro: você está obtendo valores de um objeto e em seguida passando esses valores para um método.
+	- passe o objeto inteiro como parametro.
+	
+Substituir parametro por chamada a método: fazer uma consulta a um método e usar o resultado como parametro de um outro método,
+sendo que este poderia chamar a consulta diretamente.
+	- faça o segundo método chamar a consulta
+	
+Introduzir objeto-parametro: métodos que exigem sempre o mesmo grupo de parametros
+	- substitua esses parametros por um objeto
+
+Remover método setter: o valor de um campo deveria ser definido somente durante sua criação, e nunca mais alterado
+	- remova métodos e setters que alteram o campo
+	
+Ocultar método: um método não é usado por outras classes ou fora de sua hierarquia
+	- marque o método como private ou protected
+	
+Substituir construtor por método factory: você tem um construtor que realiza tarefas complexas
+	- crie um método factory e use-o no lugar das chamadas ao construtor
+	
+Substituir código de erro por exception: um método retorna um valor especial para indicar um erro
+	- lance uma exceção no lugar de retornar o valor especial
+	
+Substituir exceção por teste: em vez de fazer um simples teste, você esta lançando uma exceção
+	- substitua a exceção por uma condição de teste
+	
+Subir método: duas classes possuem método que fazem a mesma coisa (ou quase)
+	- remova os metodos das subclasses e mova-o para a superclasse
+	
+Subir corpo do construtor: as subclasses possuem construtores quase identicos
+	- crie um construtor na superclasse e mova o código comum para lá. Chame o construtor da superclasse a partir das subclasses
+	
+Descer método: comportamento implementado na superclasse, mas usado em apenas uma subclasse
+	- mova ester comportamento para a subclasse
+	
+Descer campo: um campo é usado apenas em uma subclasse
+	- mova este campo para essa subclasse
+	
+Extrair subclasse: uma classe tem um conjunto de dados e comportamentos só usado em alguns casos
+	- crie uma subclasse para essas situações
+
+Extrair superclasse: duas ou mais classes possuem mesmos métodos ou dados
+	- crie uma superclasse e mova para lá os dados e comportamentos comuns das subclasses
+	
+Extrair interface: código "cliente" usa a mesma interface de algumas classes
+	- extraia a interface comum dessas classes para uma interface
+	
+Colapsar hierarquia: subclasse e superclasse são praticamente iguais
+	- use somente uma das classes. Migre a diferença e remova a outra classe.
+	
+Formar método template: duas ou mais subclasses possuem métodos diferentes, mas que executam um algoritmo na mesma ordem
+	- crie um método na superclasse que contenha o "esqueleto" com a sequencia de passos. Para cada passo, chame um método da subclasse.
+	
+Substituir herança por delegação: subclasse só usa uma parte dos dados ou comportamentos da superclasse
+	- utiliza a superclasse como campo da subclasse. Chame os métodos e dados da superclasse. Elimine a herança.
+	
+Substituir delegação por herança: uma classe tem um campo que referencia outra classe, e tem métodos simples, que fazem nada além de chamar
+os métodos dessa outra classe.
+	- faça uma herança, remova o campo e passe a utilizar os metodos da superclasse
